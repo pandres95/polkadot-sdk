@@ -74,11 +74,14 @@ use core::marker::PhantomData;
 pub trait WeightInfo {
 	fn spend_local() -> Weight;
 	fn remove_approval() -> Weight;
-	fn on_initialize_proposals(p: u32, ) -> Weight;
+	fn on_initialize() -> Weight;
 	fn spend() -> Weight;
 	fn payout() -> Weight;
 	fn check_status() -> Weight;
 	fn void_spend() -> Weight;
+	fn migration_v1_next_step() -> Weight;
+	fn migration_v1_spend_approval() -> Weight;
+	fn migration_v1_remove_proposal() -> Weight;
 }
 
 /// Weights for `pallet_treasury` using the Substrate node and recommended hardware.
@@ -114,15 +117,13 @@ impl<T: frame_system::Config> WeightInfo for SubstrateWeight<T> {
 	/// Proof: `Treasury::Deactivated` (`max_values`: Some(1), `max_size`: Some(16), added: 511, mode: `MaxEncodedLen`)
 	/// Storage: `Treasury::LastSpendPeriod` (r:1 w:1)
 	/// Proof: `Treasury::LastSpendPeriod` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
-	/// The range of component `p` is `[0, 99]`.
-	fn on_initialize_proposals(p: u32, ) -> Weight {
+	fn on_initialize() -> Weight {
 		// Proof Size summary in bytes:
 		//  Measured:  `78`
 		//  Estimated: `1501`
 		// Minimum execution time: 8_211_000 picoseconds.
 		Weight::from_parts(11_324_784, 1501)
 			// Standard Error: 806
-			.saturating_add(Weight::from_parts(45_246, 0).saturating_mul(p.into()))
 			.saturating_add(T::DbWeight::get().reads(2_u64))
 			.saturating_add(T::DbWeight::get().writes(2_u64))
 	}
@@ -180,6 +181,33 @@ impl<T: frame_system::Config> WeightInfo for SubstrateWeight<T> {
 			.saturating_add(T::DbWeight::get().reads(1_u64))
 			.saturating_add(T::DbWeight::get().writes(1_u64))
 	}
+	fn migration_v1_next_step() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `144`
+		//  Estimated: `3539`
+		// Minimum execution time: 10_730_000 picoseconds.
+		Weight::from_parts(10_908_000, 3539)
+			.saturating_add(T::DbWeight::get().reads(2_u64))
+			.saturating_add(T::DbWeight::get().writes(1_u64))
+	}
+	fn migration_v1_spend_approval() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `144`
+		//  Estimated: `3539`
+		// Minimum execution time: 10_730_000 picoseconds.
+		Weight::from_parts(10_908_000, 3539)
+			.saturating_add(T::DbWeight::get().reads(2_u64))
+			.saturating_add(T::DbWeight::get().writes(1_u64))
+	}
+	fn migration_v1_remove_proposal() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `144`
+		//  Estimated: `3539`
+		// Minimum execution time: 10_730_000 picoseconds.
+		Weight::from_parts(10_908_000, 3539)
+			.saturating_add(T::DbWeight::get().reads(2_u64))
+			.saturating_add(T::DbWeight::get().writes(1_u64))
+	}
 }
 
 // For backwards compatibility and tests.
@@ -214,15 +242,13 @@ impl WeightInfo for () {
 	/// Proof: `Treasury::Deactivated` (`max_values`: Some(1), `max_size`: Some(16), added: 511, mode: `MaxEncodedLen`)
 	/// Storage: `Treasury::LastSpendPeriod` (r:1 w:1)
 	/// Proof: `Treasury::LastSpendPeriod` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
-	/// The range of component `p` is `[0, 99]`.
-	fn on_initialize_proposals(p: u32, ) -> Weight {
+	fn on_initialize() -> Weight {
 		// Proof Size summary in bytes:
 		//  Measured:  `78`
 		//  Estimated: `1501`
 		// Minimum execution time: 8_211_000 picoseconds.
 		Weight::from_parts(11_324_784, 1501)
 			// Standard Error: 806
-			.saturating_add(Weight::from_parts(45_246, 0).saturating_mul(p.into()))
 			.saturating_add(RocksDbWeight::get().reads(2_u64))
 			.saturating_add(RocksDbWeight::get().writes(2_u64))
 	}
@@ -278,6 +304,33 @@ impl WeightInfo for () {
 		// Minimum execution time: 10_730_000 picoseconds.
 		Weight::from_parts(10_908_000, 3539)
 			.saturating_add(RocksDbWeight::get().reads(1_u64))
+			.saturating_add(RocksDbWeight::get().writes(1_u64))
+	}
+	fn migration_v1_next_step() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `144`
+		//  Estimated: `3539`
+		// Minimum execution time: 10_730_000 picoseconds.
+		Weight::from_parts(10_908_000, 3539)
+			.saturating_add(RocksDbWeight::get().reads(2_u64))
+			.saturating_add(RocksDbWeight::get().writes(1_u64))
+	}
+	fn migration_v1_spend_approval() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `144`
+		//  Estimated: `3539`
+		// Minimum execution time: 10_730_000 picoseconds.
+		Weight::from_parts(10_908_000, 3539)
+			.saturating_add(RocksDbWeight::get().reads(2_u64))
+			.saturating_add(RocksDbWeight::get().writes(1_u64))
+	}
+	fn migration_v1_remove_proposal() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `144`
+		//  Estimated: `3539`
+		// Minimum execution time: 10_730_000 picoseconds.
+		Weight::from_parts(10_908_000, 3539)
+			.saturating_add(RocksDbWeight::get().reads(2_u64))
 			.saturating_add(RocksDbWeight::get().writes(1_u64))
 	}
 }
